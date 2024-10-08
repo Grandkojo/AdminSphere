@@ -1,0 +1,61 @@
+.vertical-line {
+  width: 2px; /* Line thickness */
+  height: 500px; /* Line height */
+  background-color: black; /* Line color */
+  margin: 0 auto; /* Center the line */
+}
+
+.def_size {
+  height: 60px;
+  width: auto;
+  margin: 10px;
+}
+
+.sidebar {
+  background-color: honeydew;
+}
+
+.offcanvas {
+  width: 250px;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* 
+body {
+  background-image: url(images/teacher.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh; /* Ensure full height */
+  /* margin: 0; */
+/* } */ 
+
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(images/teacher.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(7px);
+    /* Apply blur only to the background */
+    z-index: -1;
+    /* Send it to the back */
+}
