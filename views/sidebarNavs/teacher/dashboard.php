@@ -26,7 +26,7 @@ session_start();
                     <i class="fa fa-file-word-o me-2" aria-hidden="true"></i>
                     <span>Grade Assignments</span>
                 </h4>
-                <a href="?page=uploadmaterial" class="btn btn-primary text-white <?= $page == "gradeassignments" ? 'active' : '' ?> text-dark" data-tab="upload">
+                <a href="?page=gradeassignments" class="btn btn-primary text-white <?= $page == "gradeassignments" ? 'active' : '' ?> text-dark" data-tab="upload">
                     Grade Assignments <span><i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </span>
                 </a>
@@ -39,7 +39,7 @@ session_start();
                     <span>Submit Assignment</span>
                 </h4>
                 <a href="?page=submitassignment" class="btn btn-primary text-white <?= $page == "submitassignment" ? 'active' : '' ?> text-dark" data-tab="upload">
-                    Submit Asssignments <span><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                    Submit Assignments <span><i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </span>
                 </a>
             </div>

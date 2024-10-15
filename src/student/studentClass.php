@@ -79,12 +79,13 @@ class Student extends Individual
             // var_dump($stmt->rowCount()); exit;
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
                 if (password_verify($this->identity_key, $row["password"])) {
                     $email = $row['email'];
                     $username = $row['name'];
                     $id = $row['student_id'];
-                    return array($email, $username, $id);
+                    $department_id = $row['department_id'];
+                    return array($email, $username, $id, $department_id);
                 } else {
                     $_SESSION['login_error'] = "Invalid password";
                     return false;
@@ -95,6 +96,20 @@ class Student extends Individual
             }
         } catch (PDOException $e) {
             echo "Error" . $e->getMessage();
+        }
+    }
+
+    public function getCourses($department_id)
+    {
+        $sql = "SELECT * FROM courses WHERE department_id = :department_id";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(":department_id", $department_id);
+        $query->execute();
+        if ($query->rowCount() > 0) {
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else if ($query->rowCount() < 1) {
+            return "No course materials uploaded yet!";
         }
     }
 }

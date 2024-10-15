@@ -6,15 +6,21 @@ $teacher_id = isset($_SESSION['l_uinfo']['id']) ? $_SESSION['l_uinfo']['id'] : "
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = null;
-    if (empty($_POST['course_material_description'])) {
-        $error = "Course material description needed";
+    if (empty($_POST['assignment_material_instruction'])) {
+        $error = "Instruction needed";
     } else if (empty($_POST['department'])) {
         $error = "Department needed";
+    }else if (empty($_POST['start_datetime'])) {
+        $error = "Start datetime needed";
+    }else if (empty($_POST['due_datetime'])) {
+        $error = "Due datetime needed";
     } else {
         $uploadOk = 1;
-        $course_material_description = $_POST['course_material_description'];
+        $assignment_material_instruction = $_POST['assignment_material_instruction'];
         $department_id = $_POST['department'];
-
+        $start_datetime = $_POST['start_datetime'];
+        $due_datetime = $_POST['due_datetime'];
+        
         $targetFile = basename($_FILES["file_upload"]["name"]);
 
         $mimeType = $_FILES["file_upload"]["type"];
@@ -23,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Get the actual content of the file
         $fileContent = file_get_contents($tempFile);
-
+        
         $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
         //set max file size to 5mb
@@ -33,33 +39,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "File too large!";
             $uploadOk = 0;
         }
-
+        
         if ($fileType != 'pdf' && $fileType != 'pptx' && $fileType != 'docx') {
             $error = "Sorry, file type is not accepted";
             $uploadOk = 0;
         }
 
         //check if file has been submitted before
-        $courses_uploaded = $teacher->getCourses($teacher_id, $targetFile);
-
-        if ($courses_uploaded) {
-            $error = "Course material already exists";
+        $assignment_uploaded = $teacher->getAssignments($teacher_id, $targetFile);
+        
+        if ($assignment_uploaded) {
+            $error = "Assignment already exists";
             $uploadOk = 0;
         }
-
+        
         //handle submission
         if ($uploadOk == 0) {
             $_SESSION["error"] = $error;
-            header("location: ../../views/teacherIndex.php?page=uploadmaterial");
+            header("location: ../../views/teacherIndex.php?page=submitassignment");
         } else {
-            $uploasdStatus = $teacher->uploadMaterial($course_material_description, (int) $department_id, $targetFile, $teacher_id, $fileContent);
+            $uploasdStatus = $teacher->submitAssignment($assignment_material_instruction, (int) $department_id, $targetFile, $teacher_id, $fileContent, $start_datetime, $due_datetime);
+            // echo "Comme ca?"; exit;
 
-            if (! $uploasdStatus) {
+            if (!$uploasdStatus) {
                 $_SESSION['upload_failure'] = "An error occured uploading your document, try again.";
-                header("location: ../../views/teacherIndex.php?page=uploadmaterial");
+                header("location: ../../views/teacherIndex.php?page=submitassignment");
             } else {
-                $_SESSION['upload_success'] = "Course material uploaded succesfully.";
-                header("location: ../../views/teacherIndex.php?page=uploadmaterial");
+                $_SESSION['upload_success'] = "Assignment uploaded succesfully.";
+                header("location: ../../views/teacherIndex.php?page=submitassignment");
             }
         }
     }

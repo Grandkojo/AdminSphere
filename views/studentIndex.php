@@ -1,5 +1,6 @@
 <?php
 session_start();
+// echo "Student here"; exit;
 // require "../libraries/instances.php";
 require "/var/www/html/AdminSphere/libraries/instances.php";
 // echo "Require worked"; exit;
@@ -11,7 +12,7 @@ if (isset($_SESSION['l_uinfo'])) { ?>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AdminSphere | Teacher</title>
+        <title>AdminSphere | Student</title>
         <link rel="icon" href="../images/adminsphere_icon.png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -31,7 +32,7 @@ if (isset($_SESSION['l_uinfo'])) { ?>
 
         <?php
         require "./layouts/header.php";
-        require "./layouts/sidebar.php";
+        require "./layouts/sidebarStudent.php";
 
 
         $page = isset($_GET['page']) ? strtolower($_GET['page']) : 'dashboard';
@@ -40,28 +41,34 @@ if (isset($_SESSION['l_uinfo'])) { ?>
 
 
         switch ($page) {
-            case 'uploadmaterial':
-                include './sidebarNavs/teacher/uploadMaterial.php';
+
+            case 'submitassignment':
+                include './sidebarNavs/student/submitAssignment.php';
                 break;
 
-            case 'gradeassignments':
-                include './sidebarNavs/teacher/gradeAssignments.php';
+            case 'accessgrades':
+                include './sidebarNavs/student/accessGrades.php';
+                break;
+
+            case 'financialstatus':
+                include './sidebarNavs/student/financialStatus.php';
                 break;
 
             case 'settings':
-                include './sidebarNavs/teacher/settings.php';
+                include './sidebarNavs/student/settings.php';
                 break;
 
-            case 'submitassignment':
-                include './sidebarNavs/teacher/submitAssignment.php';
+            case 'coursematerials':
+                include './sidebarNavs/student/courseMaterials.php';
                 break;
+
 
             case 'dashboard':
-                include './sidebarNavs/teacher/dashboard.php';
+                include './sidebarNavs/student/dashboard.php';
                 break;
 
             default:
-                include './sidebarNavs/teacher/dashboard.php';
+                include './sidebarNavs/student/dashboard.php';
                 break;
         }
         ?>

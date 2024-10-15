@@ -14,21 +14,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=uploadmaterial" class="nav-link <?= $page == "uploadmaterial" ? 'active' : '' ?> text-dark" data-tab="upload">
+                    <a href="?page=coursematerials" class="nav-link <?= $page == "coursematerials" ? 'active' : '' ?> text-dark" data-tab="upload">
+                        <i class="fa fa-book me-2" aria-hidden="true"></i>
+                        Course Materials
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?page=submitassignment" class="nav-link <?= $page == "submitassigment" ? 'active' : '' ?> text-dark" data-tab="upload">
                         <i class="fa fa-upload me-2" aria-hidden="true"></i>
-                        Upload Material
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=gradeassignments" class="nav-link <?= $page == "gradeassignments" ? 'active' : '' ?> text-dark" data-tab="upload">
-                        <i class="fa fa-file-word-o me-2" aria-hidden="true"></i>
-                        Grade Assignments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=submitassignment" class="nav-link <?= $page == "submitassignment" ? 'active' : '' ?> text-dark" data-tab="upload">
-                        <i class="fa fa-plus me-2" aria-hidden="true"></i>
                         Submit Assignment
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?page=accessgrades" class="nav-link <?= $page == "accessgrades" ? 'active' : '' ?> text-dark" data-tab="upload">
+                        <i class="fa fa-file-word-o me-2" aria-hidden="true"></i>
+                        Access Grades
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="?page=financialstatus" class="nav-link <?= $page == "financialstatus" ? 'active' : '' ?> text-dark" data-tab="upload">
+                        <i class="fa fa-credit-card-alt me-2" aria-hidden="true"></i>
+                        Financial Status
                     </a>
                 </li>
                 <li class="nav-item">

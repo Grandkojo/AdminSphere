@@ -1,5 +1,6 @@
 <?php
-include "../libraries/instances.php";
+// include "../libraries/instances.php";
+require "/var/www/html/AdminSphere/libraries/instances.php";
 
 $error = null;
 

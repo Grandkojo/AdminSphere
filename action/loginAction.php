@@ -1,5 +1,6 @@
 <?php
-include "../libraries/instances.php";
+// include "../libraries/instances.php";
+require "/var/www/html/AdminSphere/libraries/instances.php";
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,15 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $login_details = $student->login($email, $identity_key);
                 // var_dump($login_details); exit;
                 if ($login_details) {
-                    list($email, $username, $id) = $login_details;
+                    list($email, $username, $id, $department_id) = $login_details;
 
                     $_SESSION['l_uinfo'] = [
                         'email' => $email,
                         'username' => $username,
-                        'id' => $id
+                        'id' => $id,
+                        'd_id' => $department_id
                     ];
                     // var_dump($_SESSION['l_uinfo']); exit;
-                    header("location: ../index.php");
+                    header("location: ../views/studentIndex.php");
                 } else {
                     // echo "Invalid email or password"; exit;      
                     $_SESSION['login_error'] = "Invalid email or password";
@@ -57,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     // echo "Invalid email or password"; exit;      
                     $_SESSION['login_error'] = "Invalid email or password";
-                    header("location: ../views/loginStudent.php");
+                    header("location: ../views/loginTeacher.php");
                 }
             }
             break;
