@@ -209,6 +209,36 @@ class Teacher extends Individual
         }
     }
 
+
+    public function editAssignment($instruction, $department_id, $assignmentMaterial, $id, $fileContent, $startDateTime, $dueDateTime)
+    {
+        try {
+            $sql = "UPDATE assignments SET department_id = :department_id, instruction = :instruction, assignment_material = :assignment_material, file_content = :file_content, start_datetime = :start_datetime, due_datetime = :due_datetime WHERE assignment_id = :assignment_id";
+            $query = $this->conn->prepare($sql);
+
+            $query->bindParam(":assignment_id", $id);
+            $query->bindParam(":department_id", $department_id);
+            $query->bindParam(":instruction", $instruction);
+            $query->bindParam(":assignment_material", $assignmentMaterial);
+            $query->bindParam(":file_content", $fileContent, PDO::PARAM_LOB);
+            $query->bindParam(":start_datetime", $startDateTime);
+            $query->bindParam(":due_datetime", $dueDateTime);
+
+            // var_dump($query->execute()); exit;
+            if (!$query->execute()) {
+                // Fetch and display the error
+                $errorInfo = $query->errorInfo();
+                return false;
+                // echo "SQL Error: " . $errorInfo[2];
+            } else {
+                return true;
+                // echo "Material uploaded successfully.";
+            }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
     public function getFileContent($course_id)
     {
 
@@ -247,17 +277,33 @@ class Teacher extends Individual
     }
 
 
+    public function deleteAssignmentFile($assignment_id)
+    {
+        // echo "Here I am"; exit;
+        $sql = "DELETE FROM assignments WHERE assignment_id = :assignment_id";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(':assignment_id', $assignment_id);
+        $query->execute();
+        return var_dump($query->execute());
+    }
+
+
+
     public function assignmentStatus($startDateTime, $endDateTime)
     {
         $current_datetime = new DateTime();
+        $start_datetime = new DateTime($startDateTime);
+        $end_datetime = new DateTime($endDateTime);
+
         $status = null;
-        if ($current_datetime >= $endDateTime) {
+        if ($current_datetime >= $end_datetime) {
             $status = "Elapsed";
-        } else if ($current_datetime < $endDateTime) {
-            $interval = date_diff($endDateTime, $current_datetime);
-            $status = $interval->format("5a d %h h");
-        } else if ($current_datetime < $startDateTime) {
-            $status = "Pending";
+        } else if ($current_datetime < $start_datetime) {
+            $interval = date_diff($start_datetime, $current_datetime);
+            $status = "Starts in <br>" . $interval->format("%d d %h h");
+        } else if ($current_datetime < $end_datetime) {
+            $interval = date_diff($end_datetime, $current_datetime);
+            $status = $interval->format("%d d %h h");
         }
         return $status;
     }

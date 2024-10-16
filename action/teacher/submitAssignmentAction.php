@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "/var/www/html/AdminSphere/libraries/instances.php";
+require  dirname(__FILE__).DIRECTORY_SEPARATOR."../../libraries/instances.php";
 $teacher_id = isset($_SESSION['l_uinfo']['id']) ? $_SESSION['l_uinfo']['id'] : "";
 
 

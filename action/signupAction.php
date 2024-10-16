@@ -1,6 +1,6 @@
 <?php
 // include "../libraries/instances.php";
-require "/var/www/html/AdminSphere/libraries/instances.php";
+require  dirname(__FILE__).DIRECTORY_SEPARATOR."../libraries/instances.php";
 
 $error = null;
 

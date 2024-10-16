@@ -1,6 +1,6 @@
 <?php
     // include "../libraries/instances.php";
-    include "/var/www/html/AdminSphere/libraries/instances.php";
+    require  dirname(__FILE__).DIRECTORY_SEPARATOR."../libraries/instances.php";
 
     if ($_SERVER["REQUEST_METHOD"] == "GET"){
         

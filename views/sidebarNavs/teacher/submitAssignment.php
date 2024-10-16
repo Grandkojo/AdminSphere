@@ -1,14 +1,10 @@
 <?php
 session_start();
-// echo "Bankueeee";
-// require "../../libraries/instances.php";
-// exit;
-// require "../libraries/instances.php";
+
 $teacher_id = isset($_SESSION['l_uinfo']['id']) ? $_SESSION['l_uinfo']['id'] : "";
 $departments = $teacher->getDepartments();
 $data = $teacher->getAssignmentData($teacher_id);
-// var_dump($data); exit;
-// var_dump($data); exit;
+
 ?>
 
 <style>
@@ -148,7 +144,7 @@ $data = $teacher->getAssignmentData($teacher_id);
                 <div class="table-responsive m-4">
                     <table class="table table-bordered">
                         <thead>
-                            <tr class="table-primary" style="font-weight: bolder;">
+                            <tr class="table-primary text-center" style="font-weight: bolder;">
                                 <th>Department</th>
                                 <th>Instruction</th>
                                 <th>Assignment</th>
@@ -164,20 +160,18 @@ $data = $teacher->getAssignmentData($teacher_id);
                                     <td><?= $rowdata['department_id'] ?></td>
                                     <td><?= $rowdata['instruction'] ?></td>
                                     <td><?= $rowdata["assignment_material"] ?><span><a href="../action/teacher/downloadAction.php?id=<?= $rowdata["assignment_id"] ?>"><i class="fa fa-download ms-2" aria-hidden="true"></i></a></span></td>
-                                    <?php 
-                                        $startDateTime = $rowdata['start_datetime'];
-                                        $endDateTime = $rowdata['end_datetime'];
+                                    <?php
+                                    $startDateTime = $rowdata['start_datetime'];
+                                    $endDateTime = $rowdata['due_datetime'];
                                     ?>
-                                    <td><?= $teacher->assignmentStatus($startDateTime, $endDateTime);?></td>
+                                    <td class="text-center"><?= $teacher->assignmentStatus($startDateTime, $endDateTime); ?></td>
 
                                     <td>
 
-                                        <a href="../action/teacher/editAction.php?id=<?= $rowdata['assignment_id'] ?>">
-                                            <i class="fa fa-2x text-primary fa-pencil-square-o" aria-hidden="true"></i>
-                                        </a>
+                                        <i class="fa fa-2x text-primary fa-pencil-square-o" data-bs-toggle="modal" data-bs-target="#editModal-<?= $rowdata["assignment_id"]; ?>" aria-hidden="true"></i>
                                     </td>
                                     <td class="text-center">
-                                        <a href="../action/teacher/deleteAction.php?id=<?= $rowdata['assignment_id'] ?>">
+                                        <a href="../action/teacher/deleteAssignmentAction.php?id=<?= $rowdata['assignment_id'] ?>">
                                             <i id="deleteButton<?= $rowdata['assignment_id'] ?>" class="fa fa-2x fa-trash-o text-danger" aria-hidden="true"></i>
                                         </a>
                                     </td>
@@ -282,13 +276,13 @@ $data = $teacher->getAssignmentData($teacher_id);
 
                     <div class="form-group mb-3 mt-4">
                         <label for="start_date "><b>Start Date & Time:</b></label>
-                        <input type="datetime-local" name="start_date" id="start_date" required>
+                        <input type="datetime-local" name="start_datetime" id="start_datetime" required>
                     </div>
 
 
                     <div class="form-group mb-3">
                         <label for="start_date"><b>Due Date & Time:</b></label>
-                        <input type="datetime-local" name="start_date" id="start_date" required>
+                        <input type="datetime-local" name="due_datetime" id="due_datetime" required>
                     </div>
                     <div class="form-group">
                         <label for="department"><b>Department:</b></label>
@@ -314,6 +308,81 @@ $data = $teacher->getAssignmentData($teacher_id);
         </div>
     </div>
 </div>
+
+
+
+
+
+
+<!-- Edit modal -->
+<?php foreach ($data as $rowdata) { ?>
+    <div class="modal fade" id="editModal-<?= $rowdata["assignment_id"]; ?>">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <h3><i class="fa fa-plus" aria-hidden="true"></i>
+                            Edit Assignment</h3>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="../action/teacher/editAssignmentAction.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="assignment_id" id="assignment_id" value="<?= $rowdata["assignment_id"]; ?>">
+
+                        <div class="form-group">
+                            <label for="assignment_material_instruction"><b>Instruction:</b></label>
+                            <textarea class="form-control mt-3" placeholder="Enter short description students should know..." name="assignment_material_instruction" id="assignment_material_instruction" required><?= htmlspecialchars($rowdata['instruction']) ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="file_upload" class="mt-3"><b>Choose a file:</b> (current: <?= htmlspecialchars($rowdata['assignment_material']) ?>):</label>
+                            <p class="text-danger m-2"> File type should be .pdf, .pptx or .docx</p>
+                            <input type="file" class="form-control" id="file_upload" name="file_upload">
+                            <input type="hidden" name="current_file" value="<?= htmlspecialchars($rowdata['assignment_material']) ?>">
+                            <?php $_SESSION['current_file_content'] = $rowdata['file_content']; ?>
+                        </div>
+
+                        <div class="form-group mb-3 mt-4">
+                            <label for="start_date "><b>Start Date & Time:</b></label>
+                            <input type="datetime-local" name="start_datetime" id="start_datetime" value="<?= htmlspecialchars($rowdata['start_datetime']) ?>" required>
+                        </div>
+
+
+                        <div class="form-group mb-3">
+                            <label for="start_date"><b>Due Date & Time:</b></label>
+                            <input type="datetime-local" name="due_datetime" id="due_datetime" value="<?= htmlspecialchars($rowdata['due_datetime']) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="department"><b>Department:</b></label>
+                            <select name="department" id="department" required>
+                                <?php foreach ($departments as $department) { ?>
+
+                                    <option value="<?= strtolower($department['department_id']) ?>"><?= ucfirst(strtolower($department['department_name'])) ?></option>
+
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Upload</button>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<?php
+}
+?>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
