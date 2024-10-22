@@ -112,4 +112,36 @@ class Student extends Individual
             return "No course materials uploaded yet!";
         }
     }
+
+    public function getAssignmentData($dept_id)
+    {
+        $sql = "SELECT * FROM assignments WHERE department_id = :department_id";
+        $query = $this->conn->prepare($sql);
+        $query->bindParam(":department_id", $dept_id);
+        $query->execute();
+        if ($query->rowCount() > 0) {
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else if ($query->rowCount() < 1) {
+            return "No assignments uploaded yet!";
+        }
+    }
+    public function assignmentStatus($startDateTime, $endDateTime)
+    {
+        $current_datetime = new DateTime();
+        $start_datetime = new DateTime($startDateTime);
+        $end_datetime = new DateTime($endDateTime);
+
+        $status = null;
+        if ($current_datetime >= $end_datetime) {
+            $status = "Elapsed";
+        } else if ($current_datetime < $start_datetime) {
+            $interval = date_diff($start_datetime, $current_datetime);
+            $status = "Starts in <br>" . $interval->format("%d d %h h");
+        } else if ($current_datetime < $end_datetime) {
+            $interval = date_diff($end_datetime, $current_datetime);
+            $status = $interval->format("%d d %h h");
+        }
+        return $status;
+    }
 }

@@ -81,6 +81,15 @@ $data = $teacher->getAssignmentData($teacher_id);
         }
     }
 
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        margin-top: 5%;
+    }
 
 
 
@@ -89,9 +98,9 @@ $data = $teacher->getAssignmentData($teacher_id);
 </head>
 
 
-<div class="container-fluid mt-4 ps-4">
-    <h2>SUBMIT ASSIGNMENT</h2>
-</div>
+<div class="container-fluid mt-4" style="padding-left: 30px;">
+        <h2><b>SUBMIT ASSIGNMENT</b></h2>
+    </div>
 
 <div class="container-fluid">
 

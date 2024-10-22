@@ -23,7 +23,15 @@ if (isset($_SESSION['l_uinfo'])) { ?>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <style>
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
 
+            li {
+                margin-top: 5%;
+            }
         </style>
     </head>
 

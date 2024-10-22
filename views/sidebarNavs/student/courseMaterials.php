@@ -14,8 +14,9 @@ if ($dept_id) {
 }
 ?>
 <div class="container-fluid mt-5">
-    <h2 class="mb-5 ms-5">COURSE MATERIALS</h2>
-    <?php if (is_string($data)) { ?>
+    <div class="container-fluid mt-4" style="padding-left: 30px;">
+        <h2><b>COURSE MATERIALS</b></h2>
+    </div> <?php if (is_string($data)) { ?>
         <div class="container p-5">
             <i class="fa fa-3x fa-exclamation-triangle mt-5" aria-hidden="true"></i>
             <h3><?= $data; ?></h3>
@@ -23,7 +24,7 @@ if ($dept_id) {
 
         </div>
     <?php
-    } else { ?>
+            } else { ?>
         <div class="table-responsive table-responsive-sm m-5">
             <table class="table table-bordered">
                 <thead>
@@ -52,6 +53,6 @@ if ($dept_id) {
         </div>
 
     <?php
-    }
+            }
     ?>
 </div>

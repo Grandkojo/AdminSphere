@@ -68,7 +68,7 @@ $data = $teacher->getData($teacher_id);
 </style>
 </head>
 
-
+<?php echo "Financial Status"; exit;?>
 <div class="container-fluid mt-4 ms-5">
     <h2>COURSE MATERIALS</h2>
 </div>

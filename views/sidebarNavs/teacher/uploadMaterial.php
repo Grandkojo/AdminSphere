@@ -84,6 +84,15 @@ $data = $teacher->getData($teacher_id);
 
         }
     }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        margin-top: 5%;
+    }
 
 
 
@@ -93,9 +102,9 @@ $data = $teacher->getData($teacher_id);
 </head>
 
 
-<div class="container-fluid mt-4 ms-4">
-    <h2>COURSE MATERIALS</h2>
-</div>
+<div class="container-fluid mt-4" style="padding-left: 30px;">
+        <h2><b>UPLOAD MATERIAL</b></h2>
+    </div>
 
 <div class="container-fluid">
 
